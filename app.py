@@ -28,7 +28,7 @@ handler = WebhookHandler(SECRET)
 ia = IMDb()
 
 resume_thumbnail_url = "https://i.imgur.com/8YjqF87.png"
-resume_url = "https://raw.githubusercontent.com/chuntailin/Resume/master/Resume.pdf"
+resume_url = "https://drive.google.com/open?id=1ktsuFJ6YUSHYqrZu8HBe0fFSASGLZmHc"
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -56,7 +56,7 @@ def handle_message(event):
 		    template=ButtonsTemplate(
 		        thumbnail_image_url=resume_thumbnail_url,
 		        title='【Resume】',
-		        text='【姓名】\n\t林均泰\n\n【碩士】\n\t國立臺灣大學\n\t資訊管理研究所',
+		        text='Press see more button to check the resume for Chun-Tai, Lin.',
 		        actions=[
 		            URITemplateAction(
 		                label='See more',
