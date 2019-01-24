@@ -1,4 +1,7 @@
+import os
 from flask import Flask, request, abort
+from enum import Enum
+from imdb import IMDb
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -8,12 +11,24 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
+class MenuFunction(Enum):
+	RESUME = "履歷"
+	MOVIE = "電影"
+
+ACCESS_TOKEN = '6HCT75JRE2ltDaznitgI8g4uJjJZHEf+311Uf9cEQus6rC2n0qIsXWDqdCADGlerleRjpLElqd1iziHEchUqSj43trQG/FREni7UsRTAIr+piJjTRU5vZiWBw0pmJlXDrSNL4PSTWruWV+vy1U2KJAdB04t89/1O/w1cDnyilFU='
+SECRET = 'ba071c1b08c2ef9ada5730e996d0ee7b'
+
 app = Flask(__name__)
 
 # Channel Access Token
-line_bot_api = LineBotApi('6HCT75JRE2ltDaznitgI8g4uJjJZHEf+311Uf9cEQus6rC2n0qIsXWDqdCADGlerleRjpLElqd1iziHEchUqSj43trQG/FREni7UsRTAIr+piJjTRU5vZiWBw0pmJlXDrSNL4PSTWruWV+vy1U2KJAdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi(ACCESS_TOKEN)
 # Channel Secret
-handler = WebhookHandler('ba071c1b08c2ef9ada5730e996d0ee7b')
+handler = WebhookHandler(SECRET)
+
+ia = IMDb()
+
+resume_thumbnail_url = "https://i.imgur.com/a6Rt1Bv.png"
+resume_url = "https://github.com/chuntailin/Resume/blob/master/Resume.pdf"
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -33,10 +48,28 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    message = TextSendMessage(text=event.message.text)
-    line_bot_api.reply_message(event.reply_token, message)
+	message = event.message.text
 
-import os
+	if message == MenuFunction.RESUME.value:
+		temp_message = TemplateSendMessage(
+	    	alt_text='Buttons template',
+		    template=ButtonsTemplate(
+		        thumbnail_image_url=resume_thumbnail_url,
+		        title='【 Resume 】',
+		        text='Resume for Chun-Tai, Lin.',
+		        actions=[
+		            URITemplateAction(
+		                label='See more',
+		                uri=resume_url
+		            )
+		        ]
+	    )
+
+		line_bot_api.reply_message(event.reply_token, temp_message)
+)
+
+
+
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
