@@ -27,8 +27,8 @@ handler = WebhookHandler(SECRET)
 
 ia = IMDb()
 
-resume_thumbnail_url = "https://i.imgur.com/a6Rt1Bv.png"
-resume_url = "https://github.com/chuntailin/Resume/blob/master/Resume.pdf"
+resume_thumbnail_url = "https://i.imgur.com/8YjqF87.png"
+resume_url = "https://raw.githubusercontent.com/chuntailin/Resume/master/Resume.pdf"
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -55,8 +55,8 @@ def handle_message(event):
 	    	alt_text='Buttons template',
 		    template=ButtonsTemplate(
 		        thumbnail_image_url=resume_thumbnail_url,
-		        title='【 Resume 】',
-		        text='Resume for Chun-Tai, Lin.',
+		        title='【Resume】',
+		        text='【姓名】\n\t林均泰\n\n【碩士】\n\t國立臺灣大學\n\t資訊管理研究所',
 		        actions=[
 		            URITemplateAction(
 		                label='See more',
