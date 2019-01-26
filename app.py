@@ -48,6 +48,7 @@ def callback():
 def handle_message(event):
 	message = event.message.text
 
+	# 履歷
 	if message == MenuFunction.RESUME.value:
 		resume_thumbnail_url = "https://i.imgur.com/8YjqF87.png"
 		resume_url = "https://drive.google.com/open?id=1ktsuFJ6YUSHYqrZu8HBe0fFSASGLZmHc"
@@ -68,12 +69,13 @@ def handle_message(event):
 		)
 
 		line_bot_api.reply_message(event.reply_token, temp_message)
-
+	# 電影
 	elif message == MenuFunction.MOVIE.value:
 		content = "透過輸入[@電影]，\n例如：@Interstellar，\n可以為您搜尋與該電影相關的資訊\n\nP.S. 片名須為英文"
 		text_message = TextMessage(text=content)
 		line_bot_api.reply_message(event.reply_token, text_message)
 
+	# 片名
 	elif message.startswith("@"):
 		movie_name = message[1:]
 		results = search_movie_info(movie_name)
@@ -129,11 +131,14 @@ def search_movie_info(name):
 						"【演員】: {} \n".format(", ".join(cast_names))
 			
 			text_message = TextMessage(text=content)
+
+			temp_title = title if len(title) < 40 else "{}...".format(title[:37])
+
 			temp_message = TemplateSendMessage(
 		    	alt_text='Buttons template',
 			    template=ButtonsTemplate(
 			        thumbnail_image_url=poster_url,
-			        title='{}'.format(title),
+			        title='{}'.format(temp_title),
 			        text='{}...'.format(summary[:57]),
 			        actions=[
 			            URITemplateAction(
@@ -153,6 +158,8 @@ def search_movie_info(name):
 	except IMDbError as e:
 		print("IMDbError: ", e)
 		return None
+
+
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
