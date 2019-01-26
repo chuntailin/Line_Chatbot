@@ -134,7 +134,7 @@ def search_movie_info(name):
 			    template=ButtonsTemplate(
 			        thumbnail_image_url=poster_url,
 			        title='【{}】'.format(title),
-			        text='{}'.format(summary),
+			        text='{}'.format(summary[:60]),
 			        actions=[
 			            URITemplateAction(
 			                label='See more',
