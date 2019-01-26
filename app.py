@@ -82,20 +82,20 @@ def handle_message(event):
 		# 天氣
 		elif message == MenuFunction.WEATHER.value:
 			temp_message = TemplateSendMessage(
-                alt_text='Buttons template',
-                template=ButtonsTemplate(
-                    thumbnail_image_url='https://i.imgur.com/Y1DWfaU.jpg',
-                    title='【Weather】',
-                    text='Check the weather information by location.',
-                    actions=[
-                        URITemplateAction(
-                            label="Send location",
-                            uri="line://nv/location"
-                        )
-                    ]
-                )
-            )
-            line_bot_api.reply_message(event.reply_token, temp_message)
+				alt_text="Buttons template",
+				template=ButtonsTemplate(
+					thumbnail_image_url="https://static.newmobilelife.com/wp-content/uploads/2018/07/poweather1.jpg",
+					title="【Weather】",
+					text="Check the weather information by location.",
+					actions=[
+						URITemplateAction(
+							label="Send location",
+							uri="line://nv/location"
+						)
+					]
+				)
+			)
+			line_bot_api.reply_message(event.reply_token, temp_message)
 
 		# 片名
 		elif message.startswith("@"):
@@ -122,7 +122,7 @@ def handle_message(event):
 def handle_location_message(event):
     try:
         lat, lon = event.message.latitude, event.message.longitude
-        result = weather_observe(lat, lon)
+        result = weather_observe(float(lat), float(lon))
 
         if result:
         	line_bot_api.reply_message(event.reply_token, result)
@@ -131,11 +131,11 @@ def handle_location_message(event):
         	content = "不好意思，\n沒有為您搜尋到附近的氣候資訊"
         	text_message = TextMessage(text=content)
         	line_bot_api.reply_message(event.reply_token, text_message)
-        	
+
     except Exception as e:
     	print("Exception: ", e)
     	error_message = "機器人目前繁忙中，請稍後再試"
-		line_bot_api.reply_message(event.reply_token, error_message)
+    	line_bot_api.reply_message(event.reply_token, error_message)
 
 # IMDB search
 def movie_info_search(name):
@@ -240,9 +240,6 @@ def weather_observe(lat, lon):
 		return None
 
 
-
-
-
 if __name__ == "__main__":
-    # port = int(os.environ.get('PORT', 5000))
-    # app.run(host='0.0.0.0', port=port)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
