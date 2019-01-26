@@ -119,22 +119,22 @@ def search_movie_info(name):
 			poster_url = movie_info["cover url"]
 			summary = movie_info["plot"][0]
 
-			content = "[Title]: {} \n".format(title) + \
-						"[Runtime]: {} mins \n".format(runtime) + \
-						"[Rating]: {} \n".format(rating) + \
-						"[Votes]: {} \n".format(votes) + \
-						"[Genres]: {} \n".format(", ".join(genres)) + \
-						"[Director]: {} \n".format(", ".join(director_names)) + \
-						"[Writer]: {} \n".format(", ".join(writer_names)) + \
-						"[Cast]: {} \n".format(", ".join(cast_names))
+			content = "【名稱】: {} \n".format(title) + \
+						"【片長】: {} 分鐘 \n".format(runtime) + \
+						"【IMDb評分】: {} \n".format(rating) + \
+						"【票數】: {} \n".format(votes) + \
+						"【分類】: {} \n".format(", ".join(genres)) + \
+						"【導演】: {} \n".format(", ".join(director_names)) + \
+						"【編劇】: {} \n".format(", ".join(writer_names)) + \
+						"【演員】: {} \n".format(", ".join(cast_names))
 			
 			text_message = TextMessage(text=content)
 			temp_message = TemplateSendMessage(
 		    	alt_text='Buttons template',
 			    template=ButtonsTemplate(
 			        thumbnail_image_url=poster_url,
-			        title='【{}】'.format(title),
-			        text='{}'.format(summary[:60]),
+			        title='{}'.format(title),
+			        text='{}...'.format(summary[:57]),
 			        actions=[
 			            URITemplateAction(
 			                label='See more',
