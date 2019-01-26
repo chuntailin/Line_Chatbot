@@ -76,7 +76,7 @@ def handle_message(event):
 
 	elif message.startswith("@"):
 		movie_name = message[1:]
-		results = search_movie_info[movie_name]
+		results = search_movie_info(movie_name)
 
 		if results:
 			text_message, temp_message = results[0], results[1]
