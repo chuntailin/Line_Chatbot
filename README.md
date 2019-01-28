@@ -1,6 +1,6 @@
 # DanielBot
 
-This is a chatbot using Line's Message API.
+This is a chatbot using Line's Messag API.
 
 Here are the features:
 - Resume presenting
